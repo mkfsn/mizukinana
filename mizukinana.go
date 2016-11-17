@@ -1,18 +1,18 @@
 package mizukinana
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"log"
-    "time"
-    "encoding/json"
+	"time"
 )
 
 const (
-    Name string = "水樹奈々"
-    BirthYear, BirthMonth, BirthDay int = 1980, 1, 12
-    OfficialWebsite string = "http://www.mizukinana.jp/news/"
-    Fanclub string = "http://fanclub.mizukinana.jp/"
+	Name                            string = "水樹奈々"
+	BirthYear, BirthMonth, BirthDay int    = 1980, 1, 12
+	OfficialWebsite                 string = "http://www.mizukinana.jp/news/"
+	Fanclub                         string = "http://fanclub.mizukinana.jp/"
 )
 
 type FeedContent struct {
@@ -25,14 +25,14 @@ type FeedContent struct {
 type FeedContentList []FeedContent
 
 func GetAge() int {
-    age, location := 0, time.Now().Location()
-    for {
-        if !time.Date(age + BirthYear, time.Month(BirthMonth), BirthDay, 0, 0, 0, 0, location).Before(time.Now()) {
-            break
-        }
-        age += 1
-    }
-    return age - 1
+	age, location := 0, time.Now().Location()
+	for {
+		if !time.Date(age+BirthYear, time.Month(BirthMonth), BirthDay, 0, 0, 0, 0, location).Before(time.Now()) {
+			break
+		}
+		age += 1
+	}
+	return age - 1
 }
 
 func FetchOfficialWebsite() (FeedContentList, error) {
@@ -85,11 +85,11 @@ func (f FeedContent) String() string {
 }
 
 func (t FeedContent) JSON() []byte {
-    b, _ := json.Marshal(t)
-    return b
+	b, _ := json.Marshal(t)
+	return b
 }
 
 func (t FeedContentList) JSON() []byte {
-    b, _ := json.Marshal(t)
-    return b
+	b, _ := json.Marshal(t)
+	return b
 }
