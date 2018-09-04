@@ -1,4 +1,7 @@
+# binary
+mizukinana
 
+# vendor
 !vendor
 vendor/*
 !vendor/vendor.json
