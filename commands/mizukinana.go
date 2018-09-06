@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
                 love by spf13 and friends in Go.
                 Complete documentation is available at http://hugo.spf13.com`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
+		printBanner()
 	},
 }
 
@@ -25,6 +25,21 @@ func init() {
 	rootCmd.AddCommand(newProfileCommand().Command)
 	rootCmd.AddCommand(newVersionCommand().Command)
 	rootCmd.AddCommand(newConcertsCommand().Command)
+}
+
+func printBanner() {
+	banner := []byte(
+		`
+##     ## #### ######## ##     ## ##    ## ####    ##    ##    ###    ##    ##    ###
+###   ###  ##       ##  ##     ## ##   ##   ##     ###   ##   ## ##   ###   ##   ## ##
+#### ####  ##      ##   ##     ## ##  ##    ##     ####  ##  ##   ##  ####  ##  ##   ##
+## ### ##  ##     ##    ##     ## #####     ##     ## ## ## ##     ## ## ## ## ##     ##
+##     ##  ##    ##     ##     ## ##  ##    ##     ##  #### ######### ##  #### #########
+##     ##  ##   ##      ##     ## ##   ##   ##     ##   ### ##     ## ##   ### ##     ##
+##     ## #### ########  #######  ##    ## ####    ##    ## ##     ## ##    ## ##     ##
+		`,
+	)
+	fmt.Println(string(banner))
 }
 
 func Execute() {
