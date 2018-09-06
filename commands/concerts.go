@@ -2,17 +2,12 @@ package commands
 
 import (
 	"encoding/json"
-	"errors"
 	"os"
 
 	"github.com/mkfsn/mizukinana/concerts"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
-)
-
-var (
-	ErrUnsupportedOutputType = errors.New("Unsupported output type")
 )
 
 type concertsCommand struct {
