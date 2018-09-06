@@ -9,27 +9,27 @@ const (
 	priceSeperator = "／"
 )
 
-type price interface {
+type Price interface {
 	Price() string
 }
 
-type nilPrice struct{}
+type NilPrice struct{}
 
-func (n nilPrice) Price() string {
+func (n NilPrice) Price() string {
 	return ""
 }
 
-func (n nilPrice) MarshalJSON() ([]byte, error) {
+func (n NilPrice) MarshalJSON() ([]byte, error) {
 	return []byte(`""`), nil
 }
 
-func (n nilPrice) MarshalYAML() (interface{}, error) {
+func (n NilPrice) MarshalYAML() (interface{}, error) {
 	return n.Price(), nil
 }
 
-type prices []price
+type Prices []Price
 
-func (p prices) Price() string {
+func (p Prices) Price() string {
 	var result []string
 	for _, price := range p {
 		result = append(result, price.Price())
@@ -37,19 +37,19 @@ func (p prices) Price() string {
 	return strings.Join(result, priceSeperator)
 }
 
-type jpy struct {
+type JPY struct {
 	value int
 	tax   bool
 }
 
-func newJPY(value int, withTax bool) price {
-	return &jpy{
+func NewJPY(value int, withTax bool) Price {
+	return &JPY{
 		value: value,
 		tax:   withTax,
 	}
 }
 
-func (j jpy) Price() string {
+func (j JPY) Price() string {
 	format := "%d円"
 	if !j.tax {
 		format += "＋税"
@@ -57,44 +57,44 @@ func (j jpy) Price() string {
 	return fmt.Sprintf(format, j.value)
 }
 
-func (j jpy) MarshalJSON() ([]byte, error) {
+func (j JPY) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("%q", j.Price())), nil
 }
 
-func (j jpy) MarshalYAML() (interface{}, error) {
+func (j JPY) MarshalYAML() (interface{}, error) {
 	return j.Price(), nil
 }
 
-type twd struct {
+type TWD struct {
 	value int
 }
 
-func newTWD(value int) price {
-	return &twd{
+func NewTWD(value int) Price {
+	return &TWD{
 		value: value,
 	}
 }
 
-func (t twd) Price() string {
+func (t TWD) Price() string {
 	return fmt.Sprintf("NTD %d", t.value)
 }
 
-func (t twd) MarshalJSON() ([]byte, error) {
+func (t TWD) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("%q", t.Price())), nil
 }
 
-func (t twd) MarshalYAML() (interface{}, error) {
+func (t TWD) MarshalYAML() (interface{}, error) {
 	return t.Price(), nil
 }
 
-type groupPrice map[string]price
+type GroupPrice map[string]Price
 
-func newGroupPrice(m map[string]price) price {
-	v := groupPrice(m)
+func NewGroupPrice(m map[string]Price) Price {
+	v := GroupPrice(m)
 	return &v
 }
 
-func (g groupPrice) Price() string {
+func (g GroupPrice) Price() string {
 	var result []string
 	for k, v := range g {
 		if k != "" {

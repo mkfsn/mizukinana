@@ -18,7 +18,7 @@ type Concert struct {
 	Open     time.Time `json:"open"     yaml:"open"`
 	Start    time.Time `json:"start"    yaml:"start"`
 	Location string    `json:"location" yaml:"location"`
-	Price    price     `json:"price"    yaml:"price"`
+	Price    Price     `json:"price"    yaml:"price"`
 	Note     string    `json:"note"     yaml:"note"`
 }
 
@@ -34,7 +34,7 @@ func (c Concert) GetStartTime() string {
 	return c.Start.Format("15:04")
 }
 
-func NewConcert(title string, date time.Time, location string, open, start time.Duration, price price, note string) Concert {
+func NewConcert(title string, date time.Time, location string, open, start time.Duration, price Price, note string) Concert {
 	return Concert{
 		Title:    title,
 		Date:     date,

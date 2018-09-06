@@ -13,8 +13,10 @@ func TestNewLive(t *testing.T) {
 	title := "NANA MIZUKI LIVE PARK 2016"
 	location := "阪神甲子園球場"
 	date := time.Date(2016, 9, 22, 0, 0, 0, 0, time.FixedZone("Asia/Tokyo", 9*60*60))
+	price := concerts.NewJPY(7777, true)
+	note := ""
 
-	concert := concerts.NewConcert(title, date, location, open, start)
+	concert := concerts.NewConcert(title, date, location, open, start, price, note)
 
 	if concert.Title != title {
 		t.Error("title does not match")
@@ -34,5 +36,13 @@ func TestNewLive(t *testing.T) {
 
 	if concert.Date != date {
 		t.Error("date does not match")
+	}
+
+	if concert.Price != price {
+		t.Error("price does not match")
+	}
+
+	if concert.Note != note {
+		t.Error("note does not match")
 	}
 }
