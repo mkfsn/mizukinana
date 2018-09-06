@@ -21,7 +21,9 @@ go install github.com/mkfsn/mizukinana
 # Concerts
 
 ```
-mizukinana concerts
+mizukinana concerts [-o {table|yaml|json}] [-f FILTER]
 ```
 
-![concerts](https://user-images.githubusercontent.com/667169/45075502-e808f500-b119-11e8-9cd7-0ec6dfa94800.gif)
+![concerts](https://user-images.githubusercontent.com/667169/45159731-2dace700-b21a-11e8-8425-1ab37cf91b0d.gif)
+
+![concerts-with-filter](https://user-images.githubusercontent.com/667169/45159647-ee7e9600-b219-11e8-9bba-3bdbce2d9e77.gif)
