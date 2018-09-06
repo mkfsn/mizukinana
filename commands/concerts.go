@@ -3,7 +3,6 @@ package commands
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/mkfsn/mizukinana/concerts"
@@ -39,45 +38,25 @@ func newConcertsCommand() *concertsCommand {
 }
 
 func (c *concertsCommand) print(cmd *cobra.Command) {
+	var result []byte
+	var err error
+
 	switch c.outputFlag {
 	case "yaml":
-		c.printYAML(cmd)
+		result, err = yaml.Marshal(concerts.Concerts)
 	case "json":
-		c.printJSON(cmd)
+		result, err = json.MarshalIndent(concerts.Concerts, "", "\t")
 	case "table":
-		c.printTable(cmd)
+		result, err = concerts.Concerts.MarshalTable()
 	default:
 		cmd.Printf("Error: %s\n", ErrUnsupportedOutputType.Error())
 		cmd.Usage()
 	}
-}
 
-func (c *concertsCommand) printJSON(cmd *cobra.Command) {
-	bytes, err := json.MarshalIndent(concerts.Concerts, "", "\t")
 	if err != nil {
 		cmd.Printf("Error:", err.Error())
-		cmd.Usage()
 		os.Exit(-1)
 	}
-	fmt.Printf("%s", string(bytes))
-}
 
-func (c *concertsCommand) printYAML(cmd *cobra.Command) {
-	result, err := yaml.Marshal(concerts.Concerts)
-	if err != nil {
-		cmd.Printf("Error:", err.Error())
-		cmd.Usage()
-		os.Exit(-1)
-	}
-	fmt.Printf("%s", string(result))
-}
-
-func (l *concertsCommand) printTable(cmd *cobra.Command) {
-	bytes, err := concerts.Concerts.MarshalTable()
-	if err != nil {
-		cmd.Printf("Error:", err.Error())
-		cmd.Usage()
-		os.Exit(-1)
-	}
-	fmt.Printf("%s", string(bytes))
+	cmd.Printf("%s\n", string(result))
 }
