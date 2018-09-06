@@ -5,7 +5,7 @@ It's all about Mizuki Nana（水樹奈々）
 # Features
 
 - [x] List All concerts, in some format: table, json, and yaml.
-- [ ] Display Profile
+- [x] Display Profile
 - [ ] List All Set-List
 - [ ] List All Discographies (albums, singles, ... etc)
 - [ ] Run as a REST API service
@@ -14,13 +14,22 @@ It's all about Mizuki Nana（水樹奈々）
 
 # How To Install
 
-```
+```mizukinana
 go install github.com/mkfsn/mizukinana
 ```
 
+# Profile
+
+```bash
+mizukinana profile [-p {table|yaml|json}]
+```
+
+![profile](https://user-images.githubusercontent.com/667169/45159966-ce9ba200-b21a-11e8-9e08-72902fd36ff8.gif)
+
+
 # Concerts
 
-```
+```bash
 mizukinana concerts [-o {table|yaml|json}] [-f FILTER]
 ```
 
