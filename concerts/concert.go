@@ -50,7 +50,15 @@ func (c concerts) MarshalTable() ([]byte, error) {
 }
 
 func (c concerts) header() []string {
-	return []string{"Date", "Open", "Start", "Title", "Location", "Price", "Note"}
+	return []string{
+		"Date",
+		"Open",
+		"Start",
+		"Title",
+		"Location",
+		"Price",
+		// "Note",
+	}
 }
 
 func (c concerts) body() [][]string {
@@ -63,7 +71,7 @@ func (c concerts) body() [][]string {
 			concert.Title,
 			concert.Location,
 			strings.Replace(concert.Price.Price(), PriceSeperator, "\n", -1),
-			concert.Note,
+			// concert.Note,
 		}
 	}
 	return rows
