@@ -1,6 +1,6 @@
 package concerts
 
-var Concerts = concerts{
+var PersonalConcerts = Concerts{
 	NewConcert("水樹奈々 20th Birthday Anniversary Live", date(2000, 1, 23), "銀座ヤマハホール", clock(16, 00), clock(17, 00), groupPrice{"前売": newJPY(3150, true)}, ""),
 
 	NewConcert(`水樹奈々 21th ANNIVERSARY CONCERT "HAPPY"`, date(2001, 1, 21), "ヤクルトホール", clock(17, 30), clock(18, 00), groupPrice{"前売": newJPY(3800, true)}, ""),

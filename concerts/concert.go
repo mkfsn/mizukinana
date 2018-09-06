@@ -2,7 +2,6 @@ package concerts
 
 import (
 	"bytes"
-	// "encoding/json"
 	"strings"
 	"time"
 
@@ -23,6 +22,18 @@ type Concert struct {
 	Note     string    `json:"note"     yaml:"note"`
 }
 
+func (c Concert) GetDate() string {
+	return c.Date.Format("2006-01-02")
+}
+
+func (c Concert) GetOpenTime() string {
+	return c.Open.Format("15:04")
+}
+
+func (c Concert) GetStartTime() string {
+	return c.Start.Format("15:04")
+}
+
 func NewConcert(title string, date time.Time, location string, open, start time.Duration, price price, note string) Concert {
 	return Concert{
 		Title:    title,
@@ -35,9 +46,50 @@ func NewConcert(title string, date time.Time, location string, open, start time.
 	}
 }
 
-type concerts []Concert
+func (c Concert) filter(key, value string) bool {
+	if value == "" {
+		return false
+	}
 
-func (c concerts) MarshalTable() ([]byte, error) {
+	switch key {
+	case "title":
+		return strings.Contains(c.Title, value)
+	case "date":
+		return strings.Contains(c.GetDate(), value)
+	case "open":
+		return strings.Contains(c.GetOpenTime(), value)
+	case "start":
+		return strings.Contains(c.GetStartTime(), value)
+	case "location":
+		return strings.Contains(c.Location, value)
+	case "price":
+		return strings.Contains(c.Price.Price(), value)
+	case "note":
+		return strings.Contains(c.Note, value)
+	}
+
+	return false
+}
+
+type Concerts []Concert
+
+func (c Concerts) Filter(filter string) Concerts {
+	args := strings.SplitN(filter, "=", 2)
+	if len(args) != 2 {
+		return nil
+	}
+
+	var result Concerts
+	filterKey, filterValue := args[0], args[1]
+	for _, concert := range c {
+		if concert.filter(filterKey, filterValue) {
+			result = append(result, concert)
+		}
+	}
+	return result
+}
+
+func (c Concerts) MarshalTable() ([]byte, error) {
 	var buf bytes.Buffer
 
 	table := tablewriter.NewWriter(&buf)
@@ -49,7 +101,7 @@ func (c concerts) MarshalTable() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-func (c concerts) header() []string {
+func (c Concerts) header() []string {
 	return []string{
 		"Date",
 		"Open",
@@ -61,13 +113,13 @@ func (c concerts) header() []string {
 	}
 }
 
-func (c concerts) body() [][]string {
+func (c Concerts) body() [][]string {
 	rows := make([][]string, len(c))
 	for i, concert := range c {
 		rows[i] = []string{
-			concert.Date.Format("2006-01-02"),
-			concert.Open.Format("15:04"),
-			concert.Start.Format("15:04"),
+			concert.GetDate(),
+			concert.GetOpenTime(),
+			concert.GetStartTime(),
 			concert.Title,
 			concert.Location,
 			strings.Replace(concert.Price.Price(), PriceSeperator, "\n", -1),

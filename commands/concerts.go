@@ -17,7 +17,8 @@ var (
 
 type concertsCommand struct {
 	*cobra.Command
-	outputFlag string
+	output string
+	filter string
 }
 
 func newConcertsCommand() *concertsCommand {
@@ -32,22 +33,28 @@ func newConcertsCommand() *concertsCommand {
 		},
 	}
 
-	command.Flags().StringVarP(&command.outputFlag, "output", "o", "table", "output format: table, json, and yaml")
+	command.Flags().StringVarP(&command.output, "output", "o", "table", "output format: table, json, and yaml")
+	command.Flags().StringVarP(&command.filter, "filter", "f", "", "filtering the concerts")
 
 	return &command
 }
 
 func (c *concertsCommand) print(cmd *cobra.Command) {
+	concerts := concerts.PersonalConcerts
+	if c.filter != "" {
+		concerts = concerts.Filter(c.filter)
+	}
+
 	var result []byte
 	var err error
 
-	switch c.outputFlag {
+	switch c.output {
 	case "yaml":
-		result, err = yaml.Marshal(concerts.Concerts)
+		result, err = yaml.Marshal(concerts)
 	case "json":
-		result, err = json.MarshalIndent(concerts.Concerts, "", "\t")
+		result, err = json.MarshalIndent(concerts, "", "\t")
 	case "table":
-		result, err = concerts.Concerts.MarshalTable()
+		result, err = concerts.MarshalTable()
 	default:
 		cmd.Printf("Error: %s\n", ErrUnsupportedOutputType.Error())
 		cmd.Usage()
