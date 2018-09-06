@@ -5,5 +5,5 @@ import (
 )
 
 var (
-	ErrUnsupportedOutputType = errors.New("Unsupported output type")
+	errUnsupportedOutputType = errors.New("Unsupported output type")
 )

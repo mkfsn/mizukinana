@@ -45,7 +45,7 @@ func (p *profileCommand) print(cmd *cobra.Command) {
 	case "table":
 		result, err = data.MarshalTable()
 	default:
-		cmd.Printf("Error: %s\n", ErrUnsupportedOutputType.Error())
+		cmd.Printf("Error: %s\n", errUnsupportedOutputType.Error())
 		cmd.Usage()
 	}
 
