@@ -122,7 +122,7 @@ func (c Concerts) body() [][]string {
 			concert.GetStartTime(),
 			concert.Title,
 			concert.Location,
-			strings.Replace(concert.Price.Price(), PriceSeperator, "\n", -1),
+			strings.Replace(concert.Price.Price(), priceSeperator, "\n", -1),
 			// concert.Note,
 		}
 	}

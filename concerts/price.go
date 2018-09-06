@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	PriceSeperator = "／"
+	priceSeperator = "／"
 )
 
 type price interface {
@@ -34,7 +34,7 @@ func (p prices) Price() string {
 	for _, price := range p {
 		result = append(result, price.Price())
 	}
-	return strings.Join(result, PriceSeperator)
+	return strings.Join(result, priceSeperator)
 }
 
 type jpy struct {
