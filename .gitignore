@@ -2,3 +2,6 @@
 !vendor
 vendor/*
 !vendor/vendor.json
+
+# IDE
+.idea
