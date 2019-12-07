@@ -1,26 +1,27 @@
-package commands
+package main
 
 import (
 	"encoding/json"
 	"os"
 
-	"github.com/mkfsn/mizukinana/discography"
+	"github.com/mkfsn/mizukinana/concerts"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
 
-type discographyCommand struct {
+type concertsCommand struct {
 	*cobra.Command
 	output string
+	filter string
 }
 
-func newDiscographyCommand() *discographyCommand {
-	var command discographyCommand
+func newConcertsCommand() *concertsCommand {
+	var command concertsCommand
 
 	command.Command = &cobra.Command{
-		Use:   "discography",
-		Short: "Print all Mizuki Nana's discography, e.g. Singles, Albums",
+		Use:   "concerts",
+		Short: "Print all Mizuki Nana's concerts",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
 			command.print(cmd)
@@ -28,23 +29,27 @@ func newDiscographyCommand() *discographyCommand {
 	}
 
 	command.Flags().StringVarP(&command.output, "output", "o", "table", "output format: table, json, and yaml")
+	command.Flags().StringVarP(&command.filter, "filter", "f", "", "filtering the concerts")
 
 	return &command
 }
 
-func (d *discographyCommand) print(cmd *cobra.Command) {
-	all := discography.All
+func (c *concertsCommand) print(cmd *cobra.Command) {
+	concerts := concerts.PersonalConcerts
+	if c.filter != "" {
+		concerts = concerts.Filter(c.filter)
+	}
 
 	var result []byte
 	var err error
 
-	switch d.output {
+	switch c.output {
 	case "yaml":
-		result, err = yaml.Marshal(all)
+		result, err = yaml.Marshal(concerts)
 	case "json":
-		result, err = json.MarshalIndent(all, "", "\t")
+		result, err = json.MarshalIndent(concerts, "", "\t")
 	case "table":
-		result, err = all.MarshalTable()
+		result, err = concerts.MarshalTable()
 	default:
 		cmd.Printf("Error: %s\n", errUnsupportedOutputType.Error())
 		cmd.Usage()
