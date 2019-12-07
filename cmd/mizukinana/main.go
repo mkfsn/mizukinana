@@ -7,6 +7,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func init() {
+	var verbose bool
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
+
+	rootCmd.AddCommand(newProfileCommand().Command)
+	rootCmd.AddCommand(newVersionCommand().Command)
+	rootCmd.AddCommand(newConcertsCommand().Command)
+}
+
 var rootCmd = &cobra.Command{
 	Use:   "mizukinana",
 	Short: "mizukinana is a Command-Line tool for providing some information of Mizuki Nana",
