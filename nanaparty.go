@@ -82,16 +82,16 @@ type NanaPartyBlog interface {
 
 // NanaPartyDiscographyCollection is a collection of resource from NanaPartyDiscographyUrl
 type NanaPartyDiscographyCollection interface {
-	// Recordings return a list of recording info.
-	Recordings() []NanaPartyRecording
+	// Discographies return a list of recording info.
+	Discographies() []NanaPartyDiscography
 }
 
-// NanaPartyRecording provides a brief info of the recording, and a method to get detailed info of the recording.
-type NanaPartyRecording interface {
+// NanaPartyDiscography provides a brief info of the discography, and a method to get detailed info of the discography.
+type NanaPartyDiscography interface {
 	// Info returns the info of recording.
-	Info() NanaPartyRecordingInfo
+	Info() NanaPartyDiscographyInfo
 	// Detail does the query to the recording web page and returns the details of the recording.
-	Detail(ctx context.Context) (*NanaPartyRecordingDetail, error)
+	Detail(ctx context.Context) (*NanaPartyDiscographyDetail, error)
 }
 
 type NanaPartyTopMainItem struct {
@@ -222,7 +222,7 @@ type NanaPartyNews struct {
 	Detail   string // HTML
 }
 
-type NanaPartyRecordingInfo struct {
+type NanaPartyDiscographyInfo struct {
 	Group     string
 	Link      string
 	Form      string
@@ -231,8 +231,15 @@ type NanaPartyRecordingInfo struct {
 	JacketUrl string
 }
 
-type NanaPartyRecordingDetail struct {
+type NanaPartyDiscographyDetail struct {
+	Editions []*NanaPartyDiscographyEdition
 	// TODO
+}
+
+type NanaPartyDiscographyEdition struct {
+	JacketUrl  string
+	Title      string
+	Attributes []string
 }
 
 type nanaParty struct{}
@@ -246,11 +253,11 @@ type nanaPartyBlog struct {
 }
 
 type nanaPartyDiscography struct {
-	doc *goquery.Document
+	NanaPartyDiscographyInfo
 }
 
-type nanaPartyRecording struct {
-	NanaPartyRecordingInfo
+type nanaPartyDiscographyDetail struct {
+	doc *goquery.Document
 }
 
 type nanaPartyBiography struct {
@@ -314,20 +321,20 @@ func (n *nanaParty) Discography(ctx context.Context) (NanaPartyDiscographyCollec
 	return newNanaPartyDiscography(doc), nil
 }
 
-func (n *nanaPartyDiscography) Recordings() []NanaPartyRecording {
-	return makeNanaPartyRecording(n.doc.Find(".jacketBlock"))
+func (n *nanaPartyDiscographyDetail) Discographies() []NanaPartyDiscography {
+	return makeNanaPartyDiscography(n.doc.Find(".jacketBlock"))
 }
 
-func (n *nanaPartyRecording) Info() NanaPartyRecordingInfo {
-	return n.NanaPartyRecordingInfo
+func (n *nanaPartyDiscography) Info() NanaPartyDiscographyInfo {
+	return n.NanaPartyDiscographyInfo
 }
 
-func (n *nanaPartyRecording) Detail(ctx context.Context) (*NanaPartyRecordingDetail, error) {
+func (n *nanaPartyDiscography) Detail(ctx context.Context) (*NanaPartyDiscographyDetail, error) {
 	doc, err := getDocumentFromUrl(ctx, n.Link)
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse document: %w", err)
 	}
-	return newNanaPartyRecordingDetail(doc), nil
+	return newNanaPartyDiscographyDetail(doc), nil
 }
 
 func (n *nanaPartySchedule) Regular() []*NanaPartyScheduleRegular {
@@ -390,16 +397,16 @@ func (n *nanaPartyBiography) Other() []*NanaPartyBiographyOther {
 	return makeNanaPartyBiographyOther(n.doc.Find(".otherBlock"))
 }
 
-func newNanaPartyRecordingDetail(doc *goquery.Document) *NanaPartyRecordingDetail {
-	// TODO(mkfsn)
-	return &NanaPartyRecordingDetail{}
+func newNanaPartyDiscographyDetail(doc *goquery.Document) *NanaPartyDiscographyDetail {
+
+	return &NanaPartyDiscographyDetail{}
 }
 
-func makeNanaPartyRecording(jacketBlock *goquery.Selection) []NanaPartyRecording {
-	var result []NanaPartyRecording
+func makeNanaPartyDiscography(jacketBlock *goquery.Selection) []NanaPartyDiscography {
+	var result []NanaPartyDiscography
 	jacketBlock.Find("li").Each(func(i int, li *goquery.Selection) {
-		var recording nanaPartyRecording
-		recording.Group, _ = getRecordingTypeBySelection(li)
+		var recording nanaPartyDiscography
+		recording.Group, _ = getDiscographyTypeBySelection(li)
 
 		a := li.Find("a")
 		recording.Link = NanaPartyDiscographyUrl + a.AttrOr("href", "")
@@ -414,8 +421,8 @@ func makeNanaPartyRecording(jacketBlock *goquery.Selection) []NanaPartyRecording
 	return result
 }
 
-func newNanaPartyDiscography(doc *goquery.Document) *nanaPartyDiscography {
-	return &nanaPartyDiscography{doc: doc}
+func newNanaPartyDiscography(doc *goquery.Document) *nanaPartyDiscographyDetail {
+	return &nanaPartyDiscographyDetail{doc: doc}
 }
 
 func makeNanaPartyScheduleRegular(regularList *goquery.Selection) []*NanaPartyScheduleRegular {
@@ -809,7 +816,7 @@ func findGroupBySelection(s *goquery.Selection) (string, bool) {
 	return "", false
 }
 
-func getRecordingTypeBySelection(s *goquery.Selection) (string, bool) {
+func getDiscographyTypeBySelection(s *goquery.Selection) (string, bool) {
 	var typesGroup = []string{"single", "album", "movie"}
 	for _, group := range typesGroup {
 		if s.HasClass(group) {

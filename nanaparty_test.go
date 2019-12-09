@@ -168,7 +168,7 @@ func TestNanaPartyDiscographyInfo(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, recording := range discography.Recordings() {
+	for _, recording := range discography.Discographies() {
 		log.Printf("Recording Info: %+v\n", recording.Info())
 	}
 }
