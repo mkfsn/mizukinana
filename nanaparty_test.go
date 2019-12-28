@@ -172,3 +172,29 @@ func TestNanaPartyDiscographyInfo(t *testing.T) {
 		log.Printf("Recording Info: %+v\n", recording.Info())
 	}
 }
+
+func TestNanaPartyDiscographyDetail(t *testing.T) {
+	discographyCollection, err := mizukinana.NanaParty().Discography(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	found := make(map[string]bool)
+
+	for _, discography := range discographyCollection.Discographies() {
+		info := discography.Info()
+		if _, ok := found[info.Form]; ok {
+			continue
+		}
+		found[info.Form] = true
+
+		log.Printf("Discography Info: %+v\n", info)
+		detail, err := discography.Detail(context.Background())
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, edition := range detail.Editions {
+			log.Printf("Discography Detail Edition: %+v\n", edition)
+		}
+	}
+}
