@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/mkfsn/mizukinana/cmd/mizukinana/concerts"
 	"github.com/spf13/cobra"
 
 	"github.com/mkfsn/mizukinana/cmd/mizukinana/nanaparty"
@@ -48,6 +49,7 @@ func NewCmdMizukinana() *cobra.Command {
 	cmd.PersistentFlags().BoolVarP(&o.Verbose, "verbose", "v", false, "verbose output")
 	cmd.AddCommand(version.NewCmdVersion())
 	cmd.AddCommand(nanaparty.NewCmdNanaparty())
+	cmd.AddCommand(concerts.NewCmdConcerts())
 	return cmd
 }
 

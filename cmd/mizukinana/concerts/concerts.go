@@ -10,40 +10,24 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type concertsCommand struct {
-	*cobra.Command
-	output string
-	filter string
+type Options struct {
+	Output string
+	Filter string
 }
 
-func newConcertsCommand() *concertsCommand {
-	var command concertsCommand
-
-	command.Command = &cobra.Command{
-		Use:   "concerts",
-		Short: "Print all Mizuki Nana's concerts",
-		Long:  "",
-		Run: func(cmd *cobra.Command, args []string) {
-			command.print(cmd)
-		},
-	}
-
-	command.Flags().StringVarP(&command.output, "output", "o", "table", "output format: table, json, and yaml")
-	command.Flags().StringVarP(&command.filter, "filter", "f", "", "filtering the concerts")
-
-	return &command
+func NewOptions() *Options {
+	return &Options{}
 }
 
-func (c *concertsCommand) print(cmd *cobra.Command) {
+func (o *Options) Run(cmd *cobra.Command) {
 	concerts := concerts.PersonalConcerts
-	if c.filter != "" {
-		concerts = concerts.Filter(c.filter)
+	if o.Filter != "" {
+		concerts = concerts.Filter(o.Filter)
 	}
 
 	var result []byte
 	var err error
-
-	switch c.output {
+	switch o.Output {
 	case "yaml":
 		result, err = yaml.Marshal(concerts)
 	case "json":
@@ -54,11 +38,24 @@ func (c *concertsCommand) print(cmd *cobra.Command) {
 		cmd.Printf("Error: %s\n", errUnsupportedOutputType.Error())
 		cmd.Usage()
 	}
-
 	if err != nil {
-		cmd.Printf("Error:", err.Error())
+		cmd.Printf("Error: %s", err)
 		os.Exit(-1)
 	}
-
 	cmd.Printf("%s\n", string(result))
+}
+
+func NewCmdConcerts() *cobra.Command {
+	o := NewOptions()
+	cmd := &cobra.Command{
+		Use:   "concerts",
+		Short: "Print all Mizuki Nana's concerts",
+		Long:  "",
+		Run: func(cmd *cobra.Command, args []string) {
+			o.Run(cmd)
+		},
+	}
+	cmd.Flags().StringVarP(&o.Output, "output", "o", "table", "output format: table, json, and yaml")
+	cmd.Flags().StringVarP(&o.Filter, "filter", "f", "", "filtering the concerts")
+	return cmd
 }
