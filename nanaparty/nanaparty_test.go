@@ -1,15 +1,15 @@
-package mizukinana_test
+package nanaparty_test
 
 import (
 	"context"
 	"log"
 	"testing"
 
-	"github.com/mkfsn/mizukinana"
+	"github.com/mkfsn/mizukinana/nanaparty"
 )
 
 func TestNanaPartyNews(t *testing.T) {
-	news, err := mizukinana.NanaParty().News(context.Background())
+	news, err := nanaparty.New().News(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}

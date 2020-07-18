@@ -1,4 +1,4 @@
-package mizukinana
+package nanaparty
 
 import (
 	"fmt"

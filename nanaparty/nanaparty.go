@@ -1,4 +1,4 @@
-package mizukinana
+package nanaparty
 
 import (
 	"context"
@@ -37,8 +37,8 @@ type NanaPartyCollection interface {
 
 type nanaParty struct{}
 
-// NanaParty returns a NanaPartyCollection.
-func NanaParty() NanaPartyCollection {
+// New returns a NanaPartyCollection.
+func New() NanaPartyCollection {
 	return &nanaParty{}
 }
 
