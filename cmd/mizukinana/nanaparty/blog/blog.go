@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/mkfsn/mizukinana/cmd/mizukinana/utils"
 	"github.com/mkfsn/mizukinana/nanaparty"
 
 	"github.com/spf13/cobra"
@@ -45,6 +46,6 @@ func NewCmdBlog() *cobra.Command {
 			_ = o.Run()
 		},
 	}
-	cmd.Flags().DurationVar(&o.MaxTime, "max-time", 10*time.Second, "Maximum time allowed for the request")
+	cmd.Flags().DurationVar(&o.MaxTime, "max-time", utils.DefaultMaxTime, "Maximum time allowed for the request")
 	return cmd
 }
