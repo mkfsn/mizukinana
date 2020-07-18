@@ -1,4 +1,4 @@
-package main
+package nanaparty
 
 import (
 	"encoding/json"
