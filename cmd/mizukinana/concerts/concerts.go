@@ -1,4 +1,4 @@
-package main
+package concerts
 
 import (
 	"encoding/json"
