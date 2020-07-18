@@ -45,6 +45,6 @@ func NewCmdNews() *cobra.Command {
 			_ = o.Run()
 		},
 	}
-	cmd.Flags().DurationVar(&o.MaxTime, "-max-time", 10*time.Second, "Maximum time allowed for the request")
+	cmd.Flags().DurationVar(&o.MaxTime, "max-time", 10*time.Second, "Maximum time allowed for the request")
 	return cmd
 }
