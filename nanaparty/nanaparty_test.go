@@ -37,7 +37,7 @@ func TestNanaPartyNews(t *testing.T) {
 }
 
 func TestNanaPartyBlogInfo(t *testing.T) {
-	blogs, err := mizukinana.NanaParty().Blog(context.Background())
+	blogs, err := nanaparty.New().Blog(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -47,7 +47,7 @@ func TestNanaPartyBlogInfo(t *testing.T) {
 }
 
 func TestNanaPartyBiographyProfile(t *testing.T) {
-	biography, err := mizukinana.NanaParty().Biography(context.Background())
+	biography, err := nanaparty.New().Biography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -56,7 +56,7 @@ func TestNanaPartyBiographyProfile(t *testing.T) {
 }
 
 func TestNanaPartyBiographyLive(t *testing.T) {
-	biography, err := mizukinana.NanaParty().Biography(context.Background())
+	biography, err := nanaparty.New().Biography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -67,7 +67,7 @@ func TestNanaPartyBiographyLive(t *testing.T) {
 }
 
 func TestNanaPartyBiographyVoice(t *testing.T) {
-	biography, err := mizukinana.NanaParty().Biography(context.Background())
+	biography, err := nanaparty.New().Biography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -81,7 +81,7 @@ func TestNanaPartyBiographyVoice(t *testing.T) {
 }
 
 func TestNanaPartyBiographySpecial(t *testing.T) {
-	biography, err := mizukinana.NanaParty().Biography(context.Background())
+	biography, err := nanaparty.New().Biography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -92,7 +92,7 @@ func TestNanaPartyBiographySpecial(t *testing.T) {
 }
 
 func TestNanaPartyBiographyOther(t *testing.T) {
-	biography, err := mizukinana.NanaParty().Biography(context.Background())
+	biography, err := nanaparty.New().Biography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -106,7 +106,7 @@ func TestNanaPartyBiographyOther(t *testing.T) {
 }
 
 func TestNanaPartyTopMain(t *testing.T) {
-	top, err := mizukinana.NanaParty().Top(context.Background())
+	top, err := nanaparty.New().Top(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -116,7 +116,7 @@ func TestNanaPartyTopMain(t *testing.T) {
 }
 
 func TestNanaPartyTopPickup(t *testing.T) {
-	top, err := mizukinana.NanaParty().Top(context.Background())
+	top, err := nanaparty.New().Top(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -126,7 +126,7 @@ func TestNanaPartyTopPickup(t *testing.T) {
 }
 
 func TestNanaPartyTopMovie(t *testing.T) {
-	top, err := mizukinana.NanaParty().Top(context.Background())
+	top, err := nanaparty.New().Top(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -134,7 +134,7 @@ func TestNanaPartyTopMovie(t *testing.T) {
 }
 
 func TestNanaPartyTopBanner(t *testing.T) {
-	top, err := mizukinana.NanaParty().Top(context.Background())
+	top, err := nanaparty.New().Top(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -144,7 +144,7 @@ func TestNanaPartyTopBanner(t *testing.T) {
 }
 
 func TestNanaPartyTopTopic(t *testing.T) {
-	top, err := mizukinana.NanaParty().Top(context.Background())
+	top, err := nanaparty.New().Top(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -154,7 +154,7 @@ func TestNanaPartyTopTopic(t *testing.T) {
 }
 
 func TestNanaPartyScheduleInfo(t *testing.T) {
-	schedule, err := mizukinana.NanaParty().Schedule(context.Background())
+	schedule, err := nanaparty.New().Schedule(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -164,7 +164,7 @@ func TestNanaPartyScheduleInfo(t *testing.T) {
 }
 
 func TestNanaPartyDiscographyInfo(t *testing.T) {
-	discography, err := mizukinana.NanaParty().Discography(context.Background())
+	discography, err := nanaparty.New().Discography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -174,7 +174,7 @@ func TestNanaPartyDiscographyInfo(t *testing.T) {
 }
 
 func TestNanaPartyDiscographyDetail(t *testing.T) {
-	discographyCollection, err := mizukinana.NanaParty().Discography(context.Background())
+	discographyCollection, err := nanaparty.New().Discography(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
