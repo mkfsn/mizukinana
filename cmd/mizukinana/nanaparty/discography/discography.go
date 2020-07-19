@@ -37,7 +37,7 @@ func (o *Options) Run(cmd *cobra.Command) {
 	}
 
 	if err != nil {
-		cmd.Printf("Error:", err.Error())
+		cmd.Printf("Error: %s", err)
 		os.Exit(-1)
 	}
 
