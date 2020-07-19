@@ -10,9 +10,9 @@ import (
 	"github.com/mkfsn/mizukinana/cmd/mizukinana/utils"
 	"github.com/mkfsn/mizukinana/cmd/mizukinana/utils/table"
 	"github.com/mkfsn/mizukinana/nanaparty"
-	"gopkg.in/yaml.v2"
 
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v2"
 )
 
 type Options struct {
