@@ -26,7 +26,7 @@ type NanaPartyCollection interface {
 	// Biography does the query to NanaPartyBiographyUrl and return a collection from the web page.
 	Biography(ctx context.Context) (NanaPartyBiographyCollection, error)
 	// Blog does the query to the NanaPartyBlogListUrl and return a list of Blog from the web page.
-	Blog(ctx context.Context) ([]NanaPartyBlog, error)
+	Blog(ctx context.Context) (NanaPartyBlogs, error)
 	// News does the query to NanaPartyNewsUrl and returns a list of news from the web page.
 	News(ctx context.Context) ([]*NanaPartyNews, error)
 	// Schedule does the query to NanaPartyScheduleUrl and returns a collection from the web page.
@@ -58,7 +58,7 @@ func (n *nanaParty) Biography(ctx context.Context) (NanaPartyBiographyCollection
 	return newNanaPartyBiography(doc), nil
 }
 
-func (n *nanaParty) Blog(ctx context.Context) ([]NanaPartyBlog, error) {
+func (n *nanaParty) Blog(ctx context.Context) (NanaPartyBlogs, error) {
 	doc, err := getDocumentFromUrl(ctx, NanaPartyBlogListUrl)
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse document: %w", err)

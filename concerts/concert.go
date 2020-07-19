@@ -1,11 +1,8 @@
 package concerts
 
 import (
-	"bytes"
 	"strings"
 	"time"
-
-	"github.com/olekukonko/tablewriter"
 )
 
 const (
@@ -89,19 +86,11 @@ func (c Concerts) Filter(filter string) Concerts {
 	return result
 }
 
-func (c Concerts) MarshalTable() ([]byte, error) {
-	var buf bytes.Buffer
-
-	table := tablewriter.NewWriter(&buf)
-	table.SetColWidth(minTitleWidth)
-	table.SetHeader(c.header())
-	table.AppendBulk(c.body())
-	table.Render()
-
-	return buf.Bytes(), nil
+func (c Concerts) MarshalTableColWidth() int {
+	return minTitleWidth
 }
 
-func (c Concerts) header() []string {
+func (c Concerts) MarshalTableHeader() []string {
 	return []string{
 		"Date",
 		"Open",
@@ -113,7 +102,7 @@ func (c Concerts) header() []string {
 	}
 }
 
-func (c Concerts) body() [][]string {
+func (c Concerts) MarshalTableBody() [][]string {
 	rows := make([][]string, len(c))
 	for i, concert := range c {
 		rows[i] = []string{

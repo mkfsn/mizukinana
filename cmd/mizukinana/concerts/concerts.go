@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
+	"github.com/mkfsn/mizukinana/cmd/mizukinana/utils/table"
 	"github.com/mkfsn/mizukinana/concerts"
 
 	"github.com/spf13/cobra"
@@ -33,7 +34,7 @@ func (o *Options) Run(cmd *cobra.Command) {
 	case "json":
 		result, err = json.MarshalIndent(concerts, "", "\t")
 	case "table":
-		result, err = concerts.MarshalTable()
+		result, err = table.Marshal(concerts)
 	default:
 		cmd.Printf("Error: %s\n", errUnsupportedOutputType.Error())
 		cmd.Usage()
