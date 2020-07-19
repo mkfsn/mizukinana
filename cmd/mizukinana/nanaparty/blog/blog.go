@@ -68,7 +68,7 @@ func NewCmdBlog() *cobra.Command {
 		},
 	}
 	cmd.Flags().DurationVar(&o.MaxTime, "max-time", utils.DefaultMaxTime, "Maximum time allowed for the request")
-	cmd.Flags().StringVarP(&o.Output, "output", "o", "", "One of 'yaml', 'json', 'csv' or 'table'")
+	cmd.Flags().StringVarP(&o.Output, "output", "o", "", "One of 'yaml', 'json' or 'table'")
 	cmd.Flags().IntVarP(&o.Latest, "", "n", -1, "Show only latest n blogs")
 	return cmd
 }
