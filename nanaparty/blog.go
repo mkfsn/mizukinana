@@ -16,10 +16,33 @@ type NanaPartyBlog interface {
 	Detail(ctx context.Context) (*NanaPartyBlogDetail, error)
 }
 
+type NanaPartyBlogs []NanaPartyBlog
+
+func (n NanaPartyBlogs) Latest(i int) NanaPartyBlogs {
+	return n[:i]
+}
+
+func (n NanaPartyBlogs) MarshalTableHeader() []string {
+	return []string{"date", "title", "link"}
+}
+
+func (n NanaPartyBlogs) MarshalTableBody() [][]string {
+	var result [][]string
+	for _, blog := range n {
+		info := blog.Info()
+		result = append(result, []string{
+			info.Date,
+			info.Title,
+			info.Link,
+		})
+	}
+	return result
+}
+
 type NanaPartyBlogInfo struct {
-	Date  string
-	Title string
-	Link  string
+	Date  string `json:"date"  yaml:"date"`
+	Title string `json:"title" yaml:"title"`
+	Link  string `json:"link"  yaml:"link"`
 }
 
 type NanaPartyBlogDetail struct {
@@ -83,7 +106,7 @@ func (n nanaPartyBlog) Detail(ctx context.Context) (*NanaPartyBlogDetail, error)
 	return newNanaPartyBlogDetail(doc), nil
 }
 
-func makeNanaPartyBlog(doc *goquery.Document) []NanaPartyBlog {
+func makeNanaPartyBlog(doc *goquery.Document) NanaPartyBlogs {
 	var result []NanaPartyBlog
 	doc.Find("dl.backnumber_page dt").Each(func(i int, dt *goquery.Selection) {
 		dd := dt.Next()
